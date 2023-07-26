@@ -94,7 +94,6 @@ g_Sij_new=mapply('/',prior_new,posterior_new)
 g_Sij_sum_new=lapply(g_Sij_new,sum)
 R_new=1-pgeom(unlist(g_Sij_sum_new),unlist(lapply(p_new,mean)))
 
-plot(j,sort(R_new),type="l",xlab="Number of phases",ylab="Reliability of software")
 
 theme_set(theme_minimal())
  fig2 = ggplot(data = d, aes(x = j, y = sort(R))) +
