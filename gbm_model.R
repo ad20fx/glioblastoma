@@ -65,11 +65,18 @@ V = unlist(Sij)
 region = rep(c("ET", "NET", "ED", "TC", "WT"), each = 102)
 ##new_data = data.frame(R[1:102], R[103:204], R[205:306], R[307:408], R[409:510], Si1, Si2, Si3, Si4, Si5, V)
 new_data = data.frame(R, V, region)
+vol_region = rep(c("VOLUME_ET","VOLUME_NET","VOLUME_ED","VOLUME_TC","VOLUME_WT"), each = 102)
+##new_data = data.frame(R[1:102], R[103:204], R[205:306], R[307:408], R[409:510], Si1, Si2, Si3, Si4, Si5, V)
+new_data = data.frame(R, V, region)
+data_fit = data.frame(R, V, region, vol_region)
+
 
 mean_R = mean(R)
 sd_R = sd(R)
 mean_V = mean(V)
 sd_V = sd(V)
+
+## for simulation
 V1 = c(9525,68592,5899,31614,7338,17679,34935,70998,83517,117105,86271,37513)
 R1 = c(0.9937805,0.9961458,0.9556447,0.9907852,0.8806554,0.9778719,0.9738203,
 		0.9777224,0.9890068,0.9839206,0.9632160,0.9502363) 
