@@ -257,6 +257,8 @@ Let us next consider the region of interest "Whole Tumor" (WT).
 > cv.err.6 <- cv.glm(data_WT, WT.glm, K = 6)$delta
 > ```
 
+The detailed codes are attached in the files test_run.R and gbm_model.R. 
+
 ## Data Source: 
 > Scarpace, L. The Cancer Imaging Archive http://doi.org/10.7937/K9/TCIA.2016.RNYFUYE9 (2016)
 
