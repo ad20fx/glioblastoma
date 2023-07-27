@@ -31,7 +31,8 @@ Aj=cumsum(aj)
 A=sum(aj)
 ##d=1
 
-Si1 = data[[5]] 
+## Considering 5 ROIs
+Si1 = data[[5]] ## VOLUME_ET
 Si2 = data[[6]] ## VOLUME_NET
 Si3 = data[[7]] ## VOLUME_ED
 Si4 = data[[8]] ## VOLUME_TC
@@ -48,8 +49,7 @@ f_Si2=dbinom(Si2,sum(Si2),p[,2])
 f_Si3=dbinom(Si3,sum(Si3),p[,3])
 f_Si4=dbinom(Si4,sum(Si4),p[,4])
 f_Si5=dbinom(Si5,sum(Si5),p[,5])
-##f_Si6=dbinom(Si6,sum(Si6),p[[6]])
-##f_Si7=dbinom(Si7,sum(Si7),p[[7]])
+
 f_Sij=list(f_Si1,f_Si2,f_Si3,f_Si4,f_Si5)
 f_Sij_sum=lapply(f_Sij,sum)
 mean_Sij=lapply(f_Sij,mean)
@@ -76,7 +76,7 @@ sd_R = sd(R)
 mean_V = mean(V)
 sd_V = sd(V)
 
-## for simulation
+## for simulation purpose
 V1 = c(9525,68592,5899,31614,7338,17679,34935,70998,83517,117105,86271,37513)
 R1 = c(0.9937805,0.9961458,0.9556447,0.9907852,0.8806554,0.9778719,0.9738203,
 		0.9777224,0.9890068,0.9839206,0.9632160,0.9502363) 
@@ -87,7 +87,7 @@ ucl_R = R1 + 1.95996*(sd_R/100)
 
 
 
-library(ggplot2)
+## graphical presentation
 theme_set(theme_minimal())
  fig = ggplot(data = new_data, aes(x = V, y = sort(R), color = region, group = region)) +
   geom_line(size = 1) + xlab("Eventual volume of undetected cancer cells in cubic mm.") + ylab("Probability that no cancer cells remain undetected ")
@@ -109,6 +109,8 @@ legend.title = element_text(size=14, face="bold")
 ##fit = lm(V~surv)
 ##summary(fit)
 
+
+## Bayesian Regression & Cross Validation
 
 ## ED
 fit1 = lm(VOLUME_ED~., data=data_ED)
@@ -289,25 +291,20 @@ cv.err <- cv.glm(data_WT, WT.glm)$delta
 cv.err.6 <- cv.glm(data_WT, WT.glm, K = 6)$delta
 
 
-
+## Correlation factor among Volume features
 Vol = cbind(data_ED[,1],data_ET[,1],data_NET[,1],data_TC[,1],data_WT[,1])
 ggpairs(Vol)
 
 
 
-
-
-
-
+## Test run subjecting Eventual Volume obtained above as Response
 Sij1=list(v1,v2,v3,v4,v5)
-
-Sij2=list(v11,v21,v31,v41,v51)
-
 Sij1_sum=lapply(Sij1,sum)
 p1=mapply(FUN='/',Sij1,Sij1_sum)
 sum(p1[,1])
 pij1_sum=lapply(p1,sum)
 
+Sij2=list(v11,v21,v31,v41,v51)
 Sij2_sum=lapply(Sij2,sum)
 p2=mapply(FUN='/',Sij2,Sij2_sum)
 sum(p2[,1])
@@ -319,7 +316,6 @@ f_Si21=dbinom(v2,sum(v2),p1[,2])
 f_Si31=dbinom(v3,sum(v3),p1[,3])
 f_Si41=dbinom(v4,sum(v4),p1[,4])
 f_Si51=dbinom(v5,sum(v5),p1[,5])
-
 
 f_Si12=dbinom(v11,sum(v11),p2[,1])
 f_Si22=dbinom(v21,sum(v21),p2[,2])
@@ -351,7 +347,6 @@ g_Sij_sum2=lapply(g_Sij2,sum)
 
 
 R1=1-pgeom(unlist(lapply(g_Sij1,sum)),unlist(lapply(p1,mean)))
-
 R2=1-pgeom(unlist(lapply(g_Sij2,sum)),unlist(lapply(p2,mean)))
 
 
